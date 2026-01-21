@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^8.2 || ^8.3",
+        "php": "^8.5",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-pdo": "*",
@@ -63,7 +63,7 @@
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-webmozart-assert": "^2.0",
         "phpunit/phpunit": "^11.5",
-        "spatie/laravel-ignition": "^2.9"
+        "spatie/laravel-ignition": "^2.10.0"
     },
     "autoload": {
         "files": [
@@ -104,7 +104,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "platform": {
-            "php": "8.2.0"
+            "php": "8.5.0"
         }
     },
     "minimum-stability": "stable",
