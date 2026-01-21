@@ -20,7 +20,7 @@
         system,
         ...
       }: let
-        php = pkgs.php; # PHP 8.2
+        php = pkgs.php84; # PHP 8.4
 
         phpWithExtensions = php.buildEnv {
           extensions = {
