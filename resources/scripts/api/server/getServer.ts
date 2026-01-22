@@ -61,6 +61,10 @@ export interface Server {
     skipScripts: boolean;
     variables: ServerEggVariable[];
     allocations: Allocation[];
+    userPreference?: {
+        groupId: number | null;
+        order: number;
+    } | null;
 }
 
 export const rawDataToServerObject = ({ attributes: data }: FractalResponseData): Server => ({
@@ -91,6 +95,12 @@ export const rawDataToServerObject = ({ attributes: data }: FractalResponseData)
     allocations: ((data.relationships?.allocations as FractalResponseList | undefined)?.data || []).map(
         rawDataToServerAllocation
     ),
+    userPreference: data.user_preference
+        ? {
+              groupId: data.user_preference.group_id,
+              order: data.user_preference.order,
+          }
+        : null,
 });
 
 export default (uuid: string): Promise<[Server, string[]]> => {

@@ -36,8 +36,14 @@ class ServerTransformer extends BaseClientTransformer
 
         $user = $this->request->user();
 
+        $preference = $server->userPreferences->firstWhere('user_id', $user->id);
+
         return [
             'server_owner' => $user->id === $server->owner_id,
+            'user_preference' => $preference ? [
+                'group_id' => $preference->group_id,
+                'order' => $preference->order,
+            ] : null,
             'identifier' => config('pterodactyl.features.new_server_identifiers')
                 ? $server->identifier
                 : $server->uuidShort,

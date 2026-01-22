@@ -270,6 +270,22 @@ class User extends Model implements
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\Pterodactyl\Models\UserServerGroup, $this>
+     */
+    public function serverGroups(): HasMany
+    {
+        return $this->hasMany(UserServerGroup::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\Pterodactyl\Models\UserServerPreference, $this>
+     */
+    public function serverPreferences(): HasMany
+    {
+        return $this->hasMany(UserServerPreference::class);
+    }
+
+    /**
      * Returns all the activity logs where this user is the subject — not to
      * be confused by activity logs where this user is the _actor_.
      *
