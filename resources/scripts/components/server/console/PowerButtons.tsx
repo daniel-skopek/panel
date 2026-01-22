@@ -10,43 +10,72 @@ interface PowerButtonProps {
 }
 
 export default ({ className }: PowerButtonProps) => {
-    const [open, setOpen] = useState(false);
+    const [action, setAction] = useState<PowerAction | null>(null);
+    const name = ServerContext.useStoreState((state) => state.server.data!.name);
     const status = ServerContext.useStoreState((state) => state.status.value);
     const instance = ServerContext.useStoreState((state) => state.socket.instance);
 
     const killable = status === 'stopping';
-    const onButtonClick = (
-        action: PowerAction | 'kill-confirmed',
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ): void => {
+    const onButtonClick = (action: PowerAction, e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
-        if (action === 'kill') {
-            return setOpen(true);
-        }
-
-        if (instance) {
-            setOpen(false);
-            instance.send('set state', action === 'kill-confirmed' ? 'kill' : action);
+        if (action === 'start' || (action === 'restart' && status === 'offline')) {
+            instance && instance.send('set state', action);
+        } else {
+            setAction(action);
         }
     };
 
     useEffect(() => {
         if (status === 'offline') {
-            setOpen(false);
+            setAction(null);
         }
     }, [status]);
+
+    const onConfirmAction = (): void => {
+        if (instance && action) {
+            instance.send('set state', action);
+        }
+        setAction(null);
+    };
 
     return (
         <div className={className}>
             <Dialog.Confirm
-                open={open}
+                open={!!action}
                 hideCloseIcon
-                onClose={() => setOpen(false)}
-                title={'Forcibly Stop Process'}
+                onClose={() => setAction(null)}
+                title={
+                    action === 'kill' ? (
+                        <>
+                            Forcibly Stop Process: <span className={'font-bold'}>{name}</span>
+                        </>
+                    ) : action === 'restart' ? (
+                        <>
+                            Restart Server: <span className={'font-bold'}>{name}</span>
+                        </>
+                    ) : (
+                        <>
+                            Stop Server: <span className={'font-bold'}>{name}</span>
+                        </>
+                    )
+                }
                 confirm={'Continue'}
-                onConfirmed={onButtonClick.bind(this, 'kill-confirmed')}
+                onConfirmed={onConfirmAction}
             >
-                Forcibly stopping a server can lead to data corruption.
+                {action === 'kill' ? (
+                    <>
+                        Forcibly stopping <span className={'font-bold'}>{name}</span> can lead to data corruption.
+                    </>
+                ) : action === 'restart' ? (
+                    <>
+                        Are you sure you want to restart <span className={'font-bold'}>{name}</span>? This will stop all
+                        running processes.
+                    </>
+                ) : (
+                    <>
+                        Are you sure you want to stop <span className={'font-bold'}>{name}</span>?
+                    </>
+                )}
             </Dialog.Confirm>
             <Can action={'control.start'}>
                 <Button
