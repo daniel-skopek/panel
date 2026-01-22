@@ -179,7 +179,7 @@ export default () => {
                                     {group.id !== 0 && (
                                         <button
                                             className={
-                                                'flex items-center w-full bg-neutral-700 p-3 rounded mb-2 hover:bg-neutral-600 transition-colors'
+                                                'flex items-center w-full bg-neutral-900 p-3 rounded mb-2 hover:bg-neutral-700 transition-colors'
                                             }
                                             onClick={() => toggleGroup(group.id)}
                                         >
