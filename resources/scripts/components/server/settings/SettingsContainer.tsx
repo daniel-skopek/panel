@@ -10,6 +10,7 @@ import tw from 'twin.macro';
 import Input from '@/components/elements/Input';
 import Label from '@/components/elements/Label';
 import ServerContentBlock from '@/components/elements/ServerContentBlock';
+import ServerDetailsHeader from '@/components/server/ServerDetailsHeader';
 import isEqual from 'react-fast-compare';
 import CopyOnClick from '@/components/elements/CopyOnClick';
 import { ip } from '@/lib/formatters';
@@ -24,6 +25,7 @@ export default () => {
 
     return (
         <ServerContentBlock title={'Settings'}>
+            <ServerDetailsHeader />
             <FlashMessageRender byKey={'settings'} css={tw`mb-4`} />
             <div css={tw`md:flex`}>
                 <div css={tw`w-full md:flex-1 md:mr-10`}>

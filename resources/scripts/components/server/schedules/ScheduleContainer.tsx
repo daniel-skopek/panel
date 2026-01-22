@@ -13,6 +13,7 @@ import tw from 'twin.macro';
 import GreyRowBox from '@/components/elements/GreyRowBox';
 import { Button } from '@/components/elements/button/index';
 import ServerContentBlock from '@/components/elements/ServerContentBlock';
+import ServerDetailsHeader from '@/components/server/ServerDetailsHeader';
 
 export default () => {
     const match = useRouteMatch();
@@ -39,6 +40,7 @@ export default () => {
 
     return (
         <ServerContentBlock title={'Schedules'}>
+            <ServerDetailsHeader />
             <FlashMessageRender byKey={'schedules'} css={tw`mb-4`} />
             {!schedules.length && loading ? (
                 <Spinner size={'large'} centered />
