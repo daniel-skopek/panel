@@ -79,6 +79,10 @@ class ServerTransformer extends BaseClientTransformer
             // This field is deprecated, please use "status".
             'is_installing' => !$server->isInstalled(),
             'is_transferring' => !is_null($server->transfer),
+            'user_preference' => $server->userPreferences->where('user_id', $user->id)->map(fn ($pref) => [
+                'group_id' => $pref->group_id,
+                'order' => $pref->order,
+            ])->first(),
         ];
     }
 
