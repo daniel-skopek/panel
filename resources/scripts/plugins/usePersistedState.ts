@@ -1,14 +1,11 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-export function usePersistedState<S = undefined>(
-    key: string,
-    defaultValue: S
-): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
-    const [state, setState] = useState(() => {
+export function usePersistedState<S>(key: string, defaultValue: S): [S, Dispatch<SetStateAction<S>>] {
+    const [state, setState] = useState<S>(() => {
         try {
             const item = localStorage.getItem(key);
 
-            return JSON.parse(item || String(defaultValue));
+            return item ? JSON.parse(item) : defaultValue;
         } catch (e) {
             console.warn('Failed to retrieve persisted value from store.', e);
 

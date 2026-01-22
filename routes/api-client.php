@@ -44,6 +44,16 @@ Route::prefix('/account')->middleware(AccountSubject::class)->group(function () 
         Route::post('/', [Client\SSHKeyController::class, 'store']);
         Route::post('/remove', [Client\SSHKeyController::class, 'delete']);
     });
+
+    Route::prefix('/server-groups')->group(function () {
+        Route::get('/', [Client\ServerGroupController::class, 'index']);
+        Route::post('/', [Client\ServerGroupController::class, 'store']);
+        Route::post('/reorder', [Client\ServerGroupController::class, 'reorder']);
+        Route::patch('/{group}', [Client\ServerGroupController::class, 'update']);
+        Route::delete('/{group}', [Client\ServerGroupController::class, 'delete']);
+    });
+
+    Route::post('/server-preferences', [Client\ServerGroupController::class, 'updatePreferences']);
 });
 
 /*
