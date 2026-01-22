@@ -58,6 +58,10 @@ export interface Server {
         backups: number;
     };
     isTransferring: boolean;
+    userPreference: {
+        groupId: number | null;
+        order: number;
+    } | null;
     variables: ServerEggVariable[];
     allocations: Allocation[];
 }
@@ -83,6 +87,12 @@ export const rawDataToServerObject = ({ attributes: data }: FractalResponseData)
     eggFeatures: data.egg_features || [],
     featureLimits: { ...data.feature_limits },
     isTransferring: data.is_transferring,
+    userPreference: data.user_preference
+        ? {
+              groupId: data.user_preference.group_id,
+              order: data.user_preference.order,
+          }
+        : null,
     variables: ((data.relationships?.variables as FractalResponseList | undefined)?.data || []).map(
         rawDataToServerEggVariable
     ),

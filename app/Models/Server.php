@@ -361,6 +361,14 @@ class Server extends Model implements Identifiable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\Pterodactyl\Models\UserServerPreference, $this>
+     */
+    public function userPreferences(): HasMany
+    {
+        return $this->hasMany(UserServerPreference::class);
+    }
+
+    /**
      * Returns all mounts that have this server has mounted.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough<\Pterodactyl\Models\Mount, \Pterodactyl\Models\MountServer, $this>
