@@ -9,6 +9,7 @@ import FileNameModal from '@/components/server/files/FileNameModal';
 import Can from '@/components/elements/Can';
 import FlashMessageRender from '@/components/FlashMessageRender';
 import PageContentBlock from '@/components/elements/PageContentBlock';
+import ServerDetailsHeader from '@/components/server/ServerDetailsHeader';
 import { ServerError } from '@/components/elements/ScreenBlock';
 import tw from 'twin.macro';
 import Button from '@/components/elements/Button';
@@ -121,6 +122,7 @@ export default () => {
 
     return (
         <PageContentBlock>
+            <ServerDetailsHeader />
             <FlashMessageRender byKey={'files:view'} css={tw`mb-4`} />
             <ErrorBoundary>
                 <div css={tw`mb-4`}>

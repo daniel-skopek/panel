@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useActivityLogs } from '@/api/server/activity';
 import ServerContentBlock from '@/components/elements/ServerContentBlock';
+import ServerDetailsHeader from '@/components/server/ServerDetailsHeader';
 import { useFlashKey } from '@/plugins/useFlash';
 import FlashMessageRender from '@/components/FlashMessageRender';
 import Spinner from '@/components/elements/Spinner';
@@ -33,6 +34,7 @@ export default () => {
 
     return (
         <ServerContentBlock title={'Activity Log'}>
+            <ServerDetailsHeader />
             <FlashMessageRender byKey={'server:activity'} />
             {(filters.filters?.event || filters.filters?.ip) && (
                 <div className={'flex justify-end mb-2'}>

@@ -9,6 +9,7 @@ import tw from 'twin.macro';
 import getServerBackups, { Context as ServerBackupContext } from '@/api/swr/getServerBackups';
 import { ServerContext } from '@/state/server';
 import ServerContentBlock from '@/components/elements/ServerContentBlock';
+import ServerDetailsHeader from '@/components/server/ServerDetailsHeader';
 import Pagination from '@/components/elements/Pagination';
 
 const BackupContainer = () => {
@@ -34,6 +35,7 @@ const BackupContainer = () => {
 
     return (
         <ServerContentBlock title={'Backups'}>
+            <ServerDetailsHeader />
             <FlashMessageRender byKey={'backups'} css={tw`mb-4`} />
             <Pagination data={backups} onPageSelect={setPage}>
                 {({ items }) =>

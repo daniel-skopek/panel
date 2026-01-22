@@ -10,6 +10,7 @@ import getServerSubusers from '@/api/server/users/getServerSubusers';
 import { httpErrorToHuman } from '@/api/http';
 import Can from '@/components/elements/Can';
 import ServerContentBlock from '@/components/elements/ServerContentBlock';
+import ServerDetailsHeader from '@/components/server/ServerDetailsHeader';
 import tw from 'twin.macro';
 
 export default () => {
@@ -49,6 +50,7 @@ export default () => {
 
     return (
         <ServerContentBlock title={'Users'}>
+            <ServerDetailsHeader />
             <FlashMessageRender byKey={'users'} css={tw`mb-4`} />
             {!subusers.length ? (
                 <p css={tw`text-center text-sm text-neutral-300`}>It looks like you don&apos;t have any subusers.</p>
