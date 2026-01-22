@@ -7,6 +7,7 @@ use Pterodactyl\Models\Server;
 use Illuminate\Cache\Repository;
 use Pterodactyl\Transformers\Api\Client\StatsTransformer;
 use Pterodactyl\Repositories\Wings\DaemonServerRepository;
+use Pterodactyl\Exceptions\Http\Connection\DaemonConnectionException;
 use Pterodactyl\Http\Controllers\Api\Client\ClientApiController;
 use Pterodactyl\Http\Requests\Api\Client\Servers\GetServerRequest;
 
@@ -31,7 +32,26 @@ class ResourceUtilizationController extends ClientApiController
     {
         $key = "resources:$server->uuid";
         $stats = $this->cache->remember($key, Carbon::now()->addSeconds(20), function () use ($server) {
-            return $this->repository->setServer($server)->getDetails();
+            try {
+                return $this->repository
+                    ->setServer($server)
+                    ->getDetails();
+            } catch (DaemonConnectionException) {
+                return [
+                    'state' => 'offline',
+                    'is_suspended' => $server->isSuspended(),
+                    'utilization' => [
+                        'memory_bytes' => 0,
+                        'cpu_absolute' => 0,
+                        'disk_bytes' => 0,
+                        'network' => [
+                            'rx_bytes' => 0,
+                            'tx_bytes' => 0,
+                        ],
+                        'uptime' => 0,
+                    ],
+                ];
+            }
         });
 
         return $this->fractal->item($stats)
