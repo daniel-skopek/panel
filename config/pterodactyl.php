@@ -77,8 +77,8 @@ return [
     */
 
     'guzzle' => [
-        'timeout' => env('GUZZLE_TIMEOUT', 15),
-        'connect_timeout' => env('GUZZLE_CONNECT_TIMEOUT', 5),
+        'timeout' => env('GUZZLE_TIMEOUT', 5),
+        'connect_timeout' => env('GUZZLE_CONNECT_TIMEOUT', 2),
     ],
 
     /*
