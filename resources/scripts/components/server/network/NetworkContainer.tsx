@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Spinner from '@/components/elements/Spinner';
 import { useFlashKey } from '@/plugins/useFlash';
 import ServerContentBlock from '@/components/elements/ServerContentBlock';
+import ServerDetailsHeader from '@/components/server/ServerDetailsHeader';
 import { ServerContext } from '@/state/server';
 import AllocationRow from '@/components/server/network/AllocationRow';
 import Button from '@/components/elements/Button';
@@ -52,6 +53,7 @@ const NetworkContainer = () => {
 
     return (
         <ServerContentBlock showFlashKey={'server:network'} title={'Network'}>
+            <ServerDetailsHeader />
             {!data ? (
                 <Spinner size={'large'} centered />
             ) : (
