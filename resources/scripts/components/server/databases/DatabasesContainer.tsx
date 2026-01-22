@@ -11,6 +11,7 @@ import useFlash from '@/plugins/useFlash';
 import tw from 'twin.macro';
 import Fade from '@/components/elements/Fade';
 import ServerContentBlock from '@/components/elements/ServerContentBlock';
+import ServerDetailsHeader from '@/components/server/ServerDetailsHeader';
 import { useDeepMemoize } from '@/plugins/useDeepMemoize';
 
 export default () => {
@@ -38,6 +39,7 @@ export default () => {
 
     return (
         <ServerContentBlock title={'Databases'}>
+            <ServerDetailsHeader />
             <FlashMessageRender byKey={'databases'} css={tw`mb-4`} />
             {!databases.length && loading ? (
                 <Spinner size={'large'} centered />

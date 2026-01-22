@@ -10,6 +10,7 @@ import Can from '@/components/elements/Can';
 import useFlash from '@/plugins/useFlash';
 import { ServerContext } from '@/state/server';
 import PageContentBlock from '@/components/elements/PageContentBlock';
+import ServerDetailsHeader from '@/components/server/ServerDetailsHeader';
 import tw from 'twin.macro';
 import { Button } from '@/components/elements/button/index';
 import ScheduleTaskRow from '@/components/server/schedules/ScheduleTaskRow';
@@ -79,6 +80,7 @@ export default () => {
 
     return (
         <PageContentBlock title={'Schedules'}>
+            <ServerDetailsHeader />
             <FlashMessageRender byKey={'schedules'} css={tw`mb-4`} />
             {!schedule || isLoading ? (
                 <Spinner size={'large'} centered />
