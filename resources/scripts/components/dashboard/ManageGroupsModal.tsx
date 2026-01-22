@@ -97,7 +97,7 @@ export default ({ visible, onDismissed, groups }: Props) => {
                     </Button>
                 </div>
                 {groups.map((group, index) => (
-                    <div key={group.id} className={'flex items-center bg-neutral-700 p-3 rounded mb-2'}>
+                    <div key={group.id} className={'flex items-center bg-neutral-900 p-3 rounded mb-2'}>
                         {editing === group.id ? (
                             <div className={'flex-1 flex items-center'}>
                                 <Input
