@@ -41,6 +41,10 @@ export default () => {
     const { data: groups } = useSWR<UserServerGroup[]>('/api/client/account/server-groups', getServerGroups);
 
     useEffect(() => {
+        setPage(1);
+    }, [showOnlyAdmin]);
+
+    useEffect(() => {
         if (!servers) return;
         if (servers.pagination.currentPage > 1 && !servers.items.length) {
             setPage(1);
