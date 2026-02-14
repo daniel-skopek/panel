@@ -16,6 +16,7 @@ export default ({ className }: PowerButtonProps) => {
     const instance = ServerContext.useStoreState((state) => state.socket.instance);
 
     const killable = status === 'stopping';
+    const effectiveAction = action && (action === 'stop' && killable ? 'kill' : action);
     const onButtonClick = (action: PowerAction, e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         if (action === 'start' || (action === 'restart' && status === 'offline')) {
@@ -32,8 +33,9 @@ export default ({ className }: PowerButtonProps) => {
     }, [status]);
 
     const onConfirmAction = (): void => {
-        if (instance && action) {
-            instance.send('set state', action);
+        const currentEffectiveAction = action && (action === 'stop' && status === 'stopping' ? 'kill' : action);
+        if (instance && currentEffectiveAction) {
+            instance.send('set state', currentEffectiveAction);
         }
         setAction(null);
     };
@@ -45,11 +47,11 @@ export default ({ className }: PowerButtonProps) => {
                 hideCloseIcon
                 onClose={() => setAction(null)}
                 title={
-                    action === 'kill' ? (
+                    effectiveAction === 'kill' ? (
                         <>
                             Forcibly Stop Process: <span className={'font-bold'}>{name}</span>
                         </>
-                    ) : action === 'restart' ? (
+                    ) : effectiveAction === 'restart' ? (
                         <>
                             Restart Server: <span className={'font-bold'}>{name}</span>
                         </>
@@ -62,11 +64,11 @@ export default ({ className }: PowerButtonProps) => {
                 confirm={'Continue'}
                 onConfirmed={onConfirmAction}
             >
-                {action === 'kill' ? (
+                {effectiveAction === 'kill' ? (
                     <>
                         Forcibly stopping <span className={'font-bold'}>{name}</span> can lead to data corruption.
                     </>
-                ) : action === 'restart' ? (
+                ) : effectiveAction === 'restart' ? (
                     <>
                         Are you sure you want to restart <span className={'font-bold'}>{name}</span>? This will stop all
                         running processes.
