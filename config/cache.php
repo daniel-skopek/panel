@@ -98,4 +98,20 @@ return [
     */
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'pterodactyl'), '_') . '_cache_'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Serializable Classes
+    |--------------------------------------------------------------------------
+    |
+    | This option controls whether cached objects are allowed to be
+    | unserialized. For security, this is disabled by default to
+    | prevent PHP deserialization gadget chain attacks.
+    |
+    | If your application stores PHP objects in cache, you should
+    | explicitly list the classes that may be unserialized.
+    |
+    */
+
+    'serializable_classes' => [],
 ];
