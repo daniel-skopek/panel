@@ -3,10 +3,12 @@
 namespace Pterodactyl\Repositories\Wings;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use Pterodactyl\Models\Node;
 use Webmozart\Assert\Assert;
 use Pterodactyl\Models\Server;
 use Illuminate\Contracts\Foundation\Application;
+use Pterodactyl\Extensions\Guzzle\CircuitBreakerMiddleware;
 
 abstract class DaemonRepository
 {
@@ -50,7 +52,18 @@ abstract class DaemonRepository
     {
         Assert::isInstanceOf($this->node, Node::class);
 
+        $stack = HandlerStack::create();
+
+        if (config('pterodactyl.guzzle.circuit_breaker', true)) {
+            $stack->push(new CircuitBreakerMiddleware(
+                $this->app->make('cache')->store(),
+                $this->node->id,
+                (int) config('pterodactyl.guzzle.unavailable_ttl', 30)
+            ));
+        }
+
         return new Client([
+            'handler' => $stack,
             'verify' => $this->app->environment('production'),
             'base_uri' => $this->node->getConnectionAddress(),
             'timeout' => config('pterodactyl.guzzle.timeout'),

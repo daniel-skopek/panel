@@ -77,8 +77,15 @@ return [
     */
 
     'guzzle' => [
-        'timeout' => env('GUZZLE_TIMEOUT', 15),
-        'connect_timeout' => env('GUZZLE_CONNECT_TIMEOUT', 5),
+        'timeout' => env('GUZZLE_TIMEOUT', 10),
+        'connect_timeout' => env('GUZZLE_CONNECT_TIMEOUT', 3),
+
+        // When a node cannot be reached (or takes too long to respond) it is marked as
+        // unavailable for this many seconds. While marked, requests to that node fail
+        // immediately instead of blocking a PHP worker for the full timeout, which
+        // prevents a single slow node from taking the entire Panel down with it.
+        'circuit_breaker' => env('GUZZLE_CIRCUIT_BREAKER', true),
+        'unavailable_ttl' => env('GUZZLE_UNAVAILABLE_TTL', 30),
     ],
 
     /*
